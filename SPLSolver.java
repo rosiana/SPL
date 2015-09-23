@@ -1,3 +1,7 @@
+// javac SPLSolver.java
+// input keyboard: java SPLSolver
+// input file: java SPLSolver input.txt output.txt
+
 import java.io.*;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -9,7 +13,7 @@ public class SPLSolver
     private float mat[][], arr[];
     private float f;
 
-    public void Solver()
+    public void Solve()
     {
         for (j = 1; j <= size; j++)
         {
@@ -97,41 +101,22 @@ public class SPLSolver
         }
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
-        int c;
-        String inputFile;
-        String outputFile;
+        SPLSolver spl = new SPLSolver();
 
-        Scanner in = new Scanner(System.in);
-
-        System.out.printf("\nSPL Solver\n");
-        System.out.printf("\nMetode input");
-        System.out.printf("\n1. File");
-        System.out.printf("\n2. Keyboard");
-        System.out.printf("\nMasukkan metode input: ");
-        c = Integer.parseInt(in.nextLine());
-
-        if (c == 1)
+        if (args.length != 2)
         {
-            System.out.printf("\nMasukkan nama file input: ");
-            inputFile = in.nextLine();
-            ReadInputFile(inputFile);
-            Solver();
-            System.out.printf("\nMasukkan nama file output: ");
-            outputFile = in.nextLine();
-            WriteOutputFile(outputFile);
-            System.out.printf("\nSelesai");
-        }
-        else if (c == 2)
-        {
-            Read();
-            Solver();
-            Print();
+            spl.Read();
+            spl.Solve();
+            spl.Print();
         }
         else
         {
-            System.out.printf("\nMasukan salah");
+            spl.ReadInputFile(args[0]);
+            spl.Solve();
+            spl.WriteOutputFile(args[1]);
+            System.out.printf("\nSelesai");
         }
     }
 }
