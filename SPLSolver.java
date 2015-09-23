@@ -31,7 +31,7 @@ public class SPLSolver
         }
     }
 
-    public void ReadInputFile(String inputFile)
+    public void ReadInputFile(String inputFile) throws IOException
     {
         String line;
         StringTokenizer st;
@@ -55,7 +55,7 @@ public class SPLSolver
         in.close();
     }
 
-    public void WriteOutputFile(String outputFile)
+    public void WriteOutputFile(String outputFile) throws IOException
     {
         PrintWriter out = new PrintWriter(new FileWriter(outputFile));
 
@@ -72,22 +72,22 @@ public class SPLSolver
     {
         Scanner in = new Scanner(System.in);
 
-        String line;
-        StringTokenizer st;
+        // String line;
+        // StringTokenizer st;
 
         System.out.printf("\nMasukkan ukuran matriks: ");
-        line = in.nextLine();
-        st = new StringTokenizer(line);
-        size = Integer.parseInt(st.nextToken());
+        size = in.nextInt();
+        // st = new StringTokenizer(line);
+        // size = Integer.parseInt(st.nextToken());
         System.out.printf("\nMasukkan elemen matriks \n");
         for (i = 1; i <= size; i++)
         {
             for (j = 1; j <= (size+1); j++)
             {
                 System.out.printf(" Elemen baris ke-" + i + "kolom ke-" + j + ": ");
-                line = in.nextLine();
-                st = new StringTokenizer(line);
-                mat[i][j] = Float.parseFloat(st.nextToken());
+                mat[i][j] = in.nextFloat();
+                // st = new StringTokenizer(line);
+                // mat[i][j] = Float.parseFloat(st.nextToken());
             }
         }
     }
@@ -105,18 +105,25 @@ public class SPLSolver
     {
         SPLSolver spl = new SPLSolver();
 
-        if (args.length != 2)
+        try
         {
-            spl.Read();
-            spl.Solve();
-            spl.Print();
+            if (args.length != 2)
+            {
+                spl.Read();
+                spl.Solve();
+                spl.Print();
+            }
+            else
+            {
+                spl.ReadInputFile(args[0]);
+                spl.Solve();
+                spl.WriteOutputFile(args[1]);
+                System.out.printf("\nSelesai");
+            }
         }
-        else
+        catch (IOException e)
         {
-            spl.ReadInputFile(args[0]);
-            spl.Solve();
-            spl.WriteOutputFile(args[1]);
-            System.out.printf("\nSelesai");
+            // do something useful here
         }
     }
 }
