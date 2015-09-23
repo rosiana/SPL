@@ -62,7 +62,7 @@ public class SPLSolver
         for (i = 1; i <= size; i++)
         {
             arr[i] = mat[i][size+1] / mat[i][i];
-            out.printf(" x%d = %f\n",i,arr[i]);
+            out.printf(" x" + i + " = " + arr[i] + "\n");
         }
 
         out.close();
@@ -79,7 +79,7 @@ public class SPLSolver
         size = in.nextInt();
         // st = new StringTokenizer(line);
         // size = Integer.parseInt(st.nextToken());
-        System.out.printf("\nMasukkan elemen matriks \n");
+        System.out.printf("Masukkan elemen matriks \n");
         for (i = 1; i <= size; i++)
         {
             for (j = 1; j <= (size+1); j++)
@@ -97,7 +97,7 @@ public class SPLSolver
         for (i = 1; i <= size; i++)
         {
             arr[i] = mat[i][size+1] / mat[i][i];
-            System.out.printf(" x%d = %f\n",i,arr[i]);
+            System.out.printf(" x" + i + " = " + arr[i] + "\n");
         }
     }
 
