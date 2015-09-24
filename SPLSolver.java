@@ -10,7 +10,8 @@ public class SPLSolver
 {
     private int i, j, k;
     private int size;
-    private float mat[][], arr[];
+    private float[][] mat = new float[10][10];
+    private float[] arr = new float[10];
     private float f;
 
     public void Solve()
