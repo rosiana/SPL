@@ -1,130 +1,251 @@
-// javac SPLSolver.java
-// input keyboard: java SPLSolver
-// input file: java SPLSolver input.txt output.txt
-
 import java.io.*;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class SPLSolver
+class SPLSolver
 {
-    private int i, j, k;
-    private int size;
-    private float[][] mat = new float[10][10];
-    private float[] arr = new float[10];
-    private float f;
+    double[][] A; //matriks
+    int n; //baris
+    int m; //kolom
 
-    public void Solve()
+    BufferedReader in;
+    PrintWriter out;
+
+    void Swap(double[][] A, int i, int k, int j)
     {
-        for (j = 1; j <= size; j++)
+        int m = A[0].length - 1;
+        double temp;
+        for(int q = j; q <= m; q++)
         {
-            for (i = 1; i <= size; i++)
+            temp = A[i][q];
+            A[i][q] = A[k][q];
+            A[k][q] = temp;
+        }
+    }
+
+    void Divide(double[][] A, int i, int j)
+    {
+        int m = A[0].length - 1;
+        for(int q = j+1; q <= m; q++)
+        {
+            A[i][q] /= A[i][j];
+        }
+        A[i][j] = 1;
+    }
+
+   void Eliminate(double[][] A, int i, int j)
+   {
+        int n = A.length - 1;
+        int m = A[0].length - 1;
+        for(int p = 1; p <= n; p++)
+        {
+            if(p!=i && A[p][j] != 0 )
             {
-                if (i != j)
+                for(int q = j+1; q <= m; q++)
                 {
-                    f = mat[i][j] / mat[j][j];
-                    for (k = 1; k <= size+1; k++)
-                    {
-                        mat[i][k] = mat[i][k] - f*mat[j][k];
-                    }
+                    A[p][q] -= A[p][j]*A[i][q];
                 }
+                A[p][j] = 0;
             }
         }
     }
 
-    public void ReadInputFile(String inputFile) throws IOException
-    {
-        String line;
-        StringTokenizer st;
-
-        BufferedReader in = new BufferedReader(new FileReader(inputFile));
-
-        line = in.readLine();
-        st = new StringTokenizer(line);
-        size = Integer.parseInt(st.nextToken());
-
-        for(i = 1; i <= size; i++)
-        {
-            line = in.readLine();
-            st = new StringTokenizer(line);
-            for(j = 1; j <= (size+1); j++)
-            {
-                mat[i][j] = Float.parseFloat(st.nextToken());
-            }
-        }
-
-        in.close();
-    }
-
-    public void WriteOutputFile(String outputFile) throws IOException
-    {
-        PrintWriter out = new PrintWriter(new FileWriter(outputFile));
-
-        for (i = 1; i <= size; i++)
-        {
-            arr[i] = mat[i][size+1] / mat[i][i];
-            out.printf(" x" + i + " = " + arr[i] + "\n");
-        }
-
-        out.close();
-    }
-
-    public void Read()
+    void Read1()
     {
         Scanner in = new Scanner(System.in);
 
-        // String line;
-        // StringTokenizer st;
+        System.out.printf("Masukkan jumlah baris: ");
+        n = Integer.parseInt(in.nextLine());
+        System.out.printf("Masukkan jumlah kolom: ");
+        m = Integer.parseInt(in.nextLine());
 
-        System.out.printf("\nMasukkan ukuran matriks: ");
-        size = in.nextInt();
-        // st = new StringTokenizer(line);
-        // size = Integer.parseInt(st.nextToken());
-        System.out.printf("Masukkan elemen matriks \n");
-        for (i = 1; i <= size; i++)
+        A = new double[n+1][m+1];
+
+        for (int i = 1; i <= n; i++)
         {
-            for (j = 1; j <= (size+1); j++)
+            for (int j = 1; j <= m; j++)
             {
-                System.out.printf(" Elemen baris ke-" + i + "kolom ke-" + j + ": ");
-                mat[i][j] = in.nextFloat();
-                // st = new StringTokenizer(line);
-                // mat[i][j] = Float.parseFloat(st.nextToken());
+                System.out.printf("Elemen matriks baris ke-" + i + " kolom ke-" + j + ": ");
+                A[i][j] = Double.parseDouble(in.nextLine());
             }
+        }
+        PrintMatrix1(A);
+    }
+
+    void Read2() throws IOException
+    {
+        Scanner inf = new Scanner(System.in);
+
+        System.out.printf("Masukkan nama file input: ");
+        String input = inf.nextLine() + ".txt";
+        System.out.printf("Masukkan nama file output: ");
+        String output = inf.nextLine() + ".txt";
+
+        in = new BufferedReader(new FileReader(input));
+        out = new PrintWriter(new FileWriter(output));
+
+        String line = in.readLine();
+        StringTokenizer st = new StringTokenizer(line);
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        A = new double[n+1][m+1];
+
+        for (int i = 1; i <= n; i++)
+        {
+            line = in.readLine();
+            st = new StringTokenizer(line);
+            for(int j = 1; j <= m; j++)
+            {
+                A[i][j] = Double.parseDouble(st.nextToken());
+            }
+        }
+        in.close();
+        PrintMatrix2(out, A);
+    }
+
+    void PrintMatrix1(double[][] A)
+    {
+        int n = A.length - 1;
+        int m = A[0].length - 1;
+        for(int i = 1; i <= n; i++)
+        {
+            for(int j = 1; j <= m; j++)
+            {
+                System.out.printf(A[i][j] + "  ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+    }
+
+    void PrintMatrix2(PrintWriter out, double[][] A)
+    {
+        int n = A.length - 1;
+        int m = A[0].length - 1;
+        for(int i = 1; i <= n; i++)
+        {
+            for(int j = 1; j <= m; j++)
+            {
+                out.print(A[i][j] + "  ");
+            }
+            out.println();
+        }
+        out.println();
+        out.println();
+    }
+
+    void Solver1()
+    {
+        int i = 1;
+        int j = 1;
+        int k;
+        while(i <= n && j <= m)
+        {
+            //cari angka bukan nol di kolom j atau di bawah baris i
+            k = i;
+            while (k<=n && A[k][j] == 0)
+            {
+                k++;
+            }
+            //jika ada di baris k
+            if(k <= n)
+            {
+                //jika k bukan i, swap baris i dengan baris k
+                if(k != i)
+                {
+                    Swap(A, i, k, j);
+                    PrintMatrix1(A);
+                }
+
+                //jika A[i][j] bukan 1, bagi baris i dengan A[i][j]
+                if(A[i][j] != 1)
+                {
+                    Divide(A, i, j);
+                    PrintMatrix1(A);
+                }
+                //hapus semua angka bukan nol dari kolom j dengan mengurangi masing-masing baris
+                //selain i dengan sejumlah kelipatan i
+                Eliminate(A, i, j);
+                PrintMatrix1(A);
+                i++;
+            }
+            j++;
         }
     }
 
-    public void Print()
+    void Solver2()
     {
-        for (i = 1; i <= size; i++)
+        int i = 1;
+        int j = 1;
+        int k;
+        while(i <= n && j <= m)
         {
-            arr[i] = mat[i][size+1] / mat[i][i];
-            System.out.printf(" x" + i + " = " + arr[i] + "\n");
+            //cari angka bukan nol di kolom j atau di bawah baris i
+            k = i;
+            while (k<=n && A[k][j] == 0)
+            {
+                k++;
+            }
+            //jika ada di baris k
+            if(k <= n)
+            {
+                //jika k bukan i, swap baris i dengan baris k
+                if(k != i)
+                {
+                    Swap(A, i, k, j);
+                    PrintMatrix2(out, A);
+                }
+
+                //jika A[i][j] bukan 1, bagi baris i dengan A[i][j]
+                if(A[i][j] != 1)
+                {
+                    Divide(A, i, j);
+                    PrintMatrix2(out, A);
+                }
+                //hapus semua angka bukan nol dari kolom j dengan mengurangi masing-masing baris
+                //selain i dengan sejumlah kelipatan i
+                Eliminate(A, i, j);
+                PrintMatrix2(out, A);
+                i++;
+            }
+            j++;
         }
+        out.close();
     }
 
     public static void main(String[] args) throws IOException
     {
-        SPLSolver spl = new SPLSolver();
-
         try
         {
-            if (args.length != 2)
+            SPLSolver spl = new SPLSolver();
+
+            System.out.println("Metode input");
+            System.out.println("1. Keyboard");
+            System.out.println("2. File");
+            System.out.printf("Pilihan: ");
+
+            Scanner in = new Scanner(System.in);
+            int c = Integer.parseInt(in.nextLine());
+
+            //cara input keyboard
+            if(c == 1)
             {
-                spl.Read();
-                spl.Solve();
-                spl.Print();
+                spl.Read1();
+                spl.Solver1();
             }
+            //cara input file
             else
             {
-                spl.ReadInputFile(args[0]);
-                spl.Solve();
-                spl.WriteOutputFile(args[1]);
-                System.out.printf("\nSelesai");
+                spl.Read2();
+                spl.Solver2();
+                System.out.println("Selesai");
             }
         }
         catch (IOException e)
         {
-            // do something useful here
+            //do something useful here
         }
     }
 }
