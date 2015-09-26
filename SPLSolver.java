@@ -11,45 +11,6 @@ class SPLSolver
     BufferedReader in;
     PrintWriter out;
 
-    void Swap(double[][] A, int i, int k, int j)
-    {
-        int m = A[0].length - 1;
-        double temp;
-        for(int q = j; q <= m; q++)
-        {
-            temp = A[i][q];
-            A[i][q] = A[k][q];
-            A[k][q] = temp;
-        }
-    }
-
-    void Divide(double[][] A, int i, int j)
-    {
-        int m = A[0].length - 1;
-        for(int q = j+1; q <= m; q++)
-        {
-            A[i][q] /= A[i][j];
-        }
-        A[i][j] = 1;
-    }
-
-   void Eliminate(double[][] A, int i, int j)
-   {
-        int n = A.length - 1;
-        int m = A[0].length - 1;
-        for(int p = 1; p <= n; p++)
-        {
-            if(p!=i && A[p][j] != 0 )
-            {
-                for(int q = j+1; q <= m; q++)
-                {
-                    A[p][q] -= A[p][j]*A[i][q];
-                }
-                A[p][j] = 0;
-            }
-        }
-    }
-
     void Read1()
     {
         Scanner in = new Scanner(System.in);
@@ -213,6 +174,45 @@ class SPLSolver
             j++;
         }
         out.close();
+    }
+
+    void Swap(double[][] A, int i, int k, int j)
+    {
+        int m = A[0].length - 1;
+        double temp;
+        for(int q = j; q <= m; q++)
+        {
+            temp = A[i][q];
+            A[i][q] = A[k][q];
+            A[k][q] = temp;
+        }
+    }
+
+    void Divide(double[][] A, int i, int j)
+    {
+        int m = A[0].length - 1;
+        for(int q = j+1; q <= m; q++)
+        {
+            A[i][q] /= A[i][j];
+        }
+        A[i][j] = 1;
+    }
+
+   void Eliminate(double[][] A, int i, int j)
+   {
+        int n = A.length - 1;
+        int m = A[0].length - 1;
+        for(int p = 1; p <= n; p++)
+        {
+            if(p!=i && A[p][j] != 0 )
+            {
+                for(int q = j+1; q <= m; q++)
+                {
+                    A[p][q] -= A[p][j]*A[i][q];
+                }
+                A[p][j] = 0;
+            }
+        }
     }
 
     public static void main(String[] args) throws IOException
