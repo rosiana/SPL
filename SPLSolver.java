@@ -361,7 +361,6 @@ class SPLSolver
             {
                 c++;
             }
-            System.out.printf(" " + c);
         }
         e = new String[c+1]; //penampung persamaan
         int[] r = new int[c+1]; //buat nyimpen suatu persamaan ada di baris mana
