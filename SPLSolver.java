@@ -245,7 +245,65 @@ class SPLSolver
 		System.out.println(" 3. Harga Rumah");
 		System.out.println();
 		System.out.println("--------------------------------------------");
+		System.out.printf("  Pilihan: ")
 	}
+	
+	void tampilxfx(double[] datax, double[] datafx, NDatax) {
+		int i;
+		System.out.println("| x ");
+		for (i=0; i<NDataX; i++) {
+			System.out.printf(" +datax[i]+ ");
+			if (i<=NDataX) {
+				System.out.println("|");
+			}
+		} // menuliskan data x;
+		for (i=0; i<NDataX; i++) {
+			System.out.printf(" +datafx[i]+ ");
+			if (i<=NDataX) {
+				System.out.println("|");
+			}
+		} // menuliskan data F(x);
+		
+		System.out.println("Cari nilai x ?");
+		System.out.println("Input : ");
+		
+	}
+	
+	/* void inisiasitabelx() {
+		//inisasi dilakukan bila user menggunakan data yang sudah ada/ tidak ada data input user
+		double[] datax;
+	} */
+	
+	void xfxsolver() {
+		int i;
+		int NDatax;
+		double[] dataxawal= {0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3}
+		double[] dataFXawal = {0.003, 0.067, 0. 148, 0.248, 0.370, 0.518, 0.697}
+		double[] dataxbaru, dataFXbaru;
+	
+			System.out.println("-----Mencari Fx-----");
+			System.out.println("1. Tampilkan data x dan Fx");
+			System.out.println("2. Input data x dan Fx baru");
+			System.out.prinf("  Masukkan Pilihan : ");
+			
+			Scanner pilih = new Scanner(System.in);
+			int pil = Integer.parseInt(pilih.nextLine());
+			
+			if (pil==1) {
+				NDatax = 7; //nilai data x dan fx sama
+				tampilxfx(dataxawal, dataFXawal, NDatax);
+				Scanner input = new Scanner(System.in);
+				int inp = Integer.parseInt(input.nextLine());
+			} /*else
+			{
+				System.out.println("Berapa data yang ingin diinput?");
+				System.out.printf("Masukkan : ");
+			}*/ //masih opsional dan terllau ribet
+			
+				
+	}
+	
+	
 
     public static void main(String[] args) throws IOException
     {
@@ -301,6 +359,11 @@ class SPLSolver
 					switch(x) {
 						case 1: {
 							// algo mencari x
+							do {
+								interpolation.xfxsolver(); //memanggil prosedur xfxsolver
+								System.out.println("Continue(Y/N)");
+        							char a = scan.next();
+							} while (a=='Y'|| a=='y') //akan mengulang sampai user input bukan Y
 							
 							break;
 						}
