@@ -215,6 +215,8 @@ class SPLSolver
         }
     }
     
+    // kelompok menu 
+    
     void mainmenu() {
 		System.out.println("--------------------------------------------");
 		System.out.println("                   Menu                     ");
@@ -248,6 +250,9 @@ class SPLSolver
 		System.out.printf("  Pilihan: ");
 	}
 	
+	// KELOMPOK INTERPOLASI
+	
+	// mencari x //
 	void tampilxfx(double[] datax, double[] datafx, int dat) {
 		int i;
 		System.out.println("| x ");
@@ -303,6 +308,7 @@ class SPLSolver
 				
 	}
 	
+	// akhir mencari x
 	
 
     public static void main(String[] args) throws IOException
