@@ -5,8 +5,10 @@ import java.util.StringTokenizer;
 class SPLSolver
 {
     double[][] A; //matriks
+    double[] R; //hasil
     int n; //baris
     int m; //kolom
+    boolean noSolution = false;
 
     BufferedReader in;
     PrintWriter out;
@@ -19,6 +21,9 @@ class SPLSolver
         n = Integer.parseInt(in.nextLine());
         System.out.printf("Masukkan jumlah kolom: ");
         m = Integer.parseInt(in.nextLine());
+
+        System.out.println();
+        System.out.println();
 
         A = new double[n+1][m+1];
 
@@ -78,7 +83,6 @@ class SPLSolver
             System.out.println();
         }
         System.out.println();
-        System.out.println();
     }
 
     void PrintMatrix2(PrintWriter out, double[][] A)
@@ -94,7 +98,48 @@ class SPLSolver
             out.println();
         }
         out.println();
-        out.println();
+    }
+
+    void AssignResult1()
+    {
+        noSolution = IsNoSolution();
+        if (noSolution)
+        {
+            System.out.println("Tidak ada solusi");
+        }
+        else
+        {
+            int n = A.length - 1;
+            int m = A[0].length - 1;
+            R = new double[n+1];
+            for(int i = 1; i <= n; i++)
+            {
+                R[i] = A[i][m];
+                System.out.println("x" + i + " = " + A[i][m]);
+            }
+        }
+    }
+
+    void AssignResult2()
+    {
+        noSolution = IsNoSolution();
+        if (noSolution)
+        {
+            out.println("Tidak ada solusi");
+        }
+        else
+        {
+            int n = A.length - 1;
+            int m = A[0].length - 1;
+            R = new double[n+1];
+            for(int i = 1; i <= n; i++)
+            {
+                R[i] = A[i][m];
+                out.print("x" + i + " = " + A[i][m]);
+                out.println();
+            }
+        }
+        out.close();
     }
 
     void Solver1SPL()
@@ -106,7 +151,7 @@ class SPLSolver
         {
             //cari angka bukan nol di kolom j atau di bawah baris i
             k = i;
-            while (k<=n && A[k][j] == 0)
+            while (k <= n && A[k][j] == 0)
             {
                 k++;
             }
@@ -145,7 +190,7 @@ class SPLSolver
         {
             //cari angka bukan nol di kolom j atau di bawah baris i
             k = i;
-            while (k<=n && A[k][j] == 0)
+            while (k <= n && A[k][j] == 0)
             {
                 k++;
             }
@@ -173,7 +218,6 @@ class SPLSolver
             }
             j++;
         }
-        out.close();
     }
 
     void Swap(double[][] A, int i, int k, int j)
@@ -204,7 +248,7 @@ class SPLSolver
         int m = A[0].length - 1;
         for(int p = 1; p <= n; p++)
         {
-            if(p!=i && A[p][j] != 0 )
+            if(p != i && A[p][j] != 0 )
             {
                 for(int q = j+1; q <= m; q++)
                 {
@@ -214,9 +258,30 @@ class SPLSolver
             }
         }
     }
-    
-    // kelompok menu 
-    
+
+    boolean IsNoSolution()
+    {
+        boolean b = true;
+        int n = A.length - 1;
+        int m = A[0].length - 2;
+        for (int p = n; p >= 1; p--) //tinjau dari bawah karena bawah duluan yang kosong
+        {
+            for (int q = 1; q <= m; q++)
+            {
+                if (A[p][m+1] != 0)
+                {
+                    if (A[p][q] != 0)
+                    {
+                        b = false;
+                    }
+                }
+            }
+        }
+        return b;
+    }
+
+    // kelompok menu
+
     void mainmenu() {
 		System.out.println("--------------------------------------------");
 		System.out.println("                   Menu                     ");
@@ -228,15 +293,15 @@ class SPLSolver
 		System.out.println();
 		System.out.println("--------------------------------------------");
 	}
-	
+
 	void menuSPL() {
 		System.out.println();
 		System.out.println("Metode input");
-        	System.out.println("1. Keyboard");
+        System.out.println("1. Keyboard");
 		System.out.println("2. File");
-        	System.out.printf("   Pilihan: ");
+        System.out.printf("   Pilihan: ");
     }
-        
+
 	void menuinterpolasi() {
 		System.out.println("--------------------------------------------");
 		System.out.println("              Menu Interpolasi              ");
@@ -249,9 +314,9 @@ class SPLSolver
 		System.out.println("--------------------------------------------");
 		System.out.printf("  Pilihan: ");
 	}
-	
+
 	// KELOMPOK INTERPOLASI
-	
+
 	// mencari x //
 	void tampilxfx(double[] datax, double[] datafx, int dat) {
 		int i;
@@ -276,29 +341,29 @@ class SPLSolver
 		System.out.println();
 		System.out.println("Cari nilai x ?");
 		System.out.printf("Input : ");
-		
+
 	}
-	
+
 	/* void inisiasitabelx() {
 		//inisasi dilakukan bila user menggunakan data yang sudah ada/ tidak ada data input user
 		double[] datax;
 	} */
-	
+
 	void xfxsolver() {
 		int i;
 		int NDatax;
 		double[] dataxawal= {0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3};
 		double[] dataFXawal = {0.003, 0.067, 0.148, 0.248, 0.370, 0.518, 0.697};
 		double[] dataxbaru, dataFXbaru;
-	
+
 			System.out.println("-----Mencari Fx-----");
 			System.out.println("1. Tampilkan data x dan Fx");
 			System.out.println("2. Input data x dan Fx baru");
 			System.out.printf("  Masukkan Pilihan : ");
-			
+
 			Scanner pilih = new Scanner(System.in);
 			int pil = Integer.parseInt(pilih.nextLine());
-			
+
 			if (pil==1) {
 				NDatax = 7; //nilai data x dan fx sama
 				tampilxfx(dataxawal, dataFXawal, NDatax);
@@ -309,12 +374,12 @@ class SPLSolver
 				System.out.println("Berapa data yang ingin diinput?");
 				System.out.printf("Masukkan : ");
 			}*/ //masih opsional dan terllau ribet
-			
-				
+
+
 	}
-	
+
 	// akhir mencari x
-	
+
 
     public static void main(String[] args) throws IOException
     {
@@ -327,30 +392,34 @@ class SPLSolver
             boolean stop;
 
 			utama.mainmenu();
-			
+
 			System.out.printf("Masukkan Pilihan : ");
 			Scanner pilmen = new Scanner(System.in); // Memilih menu SPL, implementasi, atau interpolasi
 			int p = Integer.parseInt(pilmen.nextLine());
 			//pilihan menu utama
-			
-			switch (p) { 
+
+			switch (p) {
 				case 1: {
 					/* Algo untuk penyelesaian SPL*/
 					spl.menuSPL();
 					Scanner in = new Scanner(System.in);
 					int c = Integer.parseInt(in.nextLine());
+                    System.out.println();
+                    System.out.println();
 
 					//cara input keyboard
 					if(c == 1)
 					{
 						spl.Read1SPL();
 						spl.Solver1SPL();
+						spl.AssignResult1();
 					}
 					//cara input file
 					else
 					{
 						spl.Read2SPL();
 						spl.Solver2SPL();
+						spl.AssignResult2();
 						System.out.println("Selesai");
 					}
 					break;
@@ -362,47 +431,47 @@ class SPLSolver
 			    }
 				default: {
 					/* Algo untuk interpolasi */
-					interpolation.menuinterpolasi(); 
-					
+					interpolation.menuinterpolasi();
+
 					Scanner interp = new Scanner(System.in);
 					int x = Integer.parseInt(interp.nextLine());
 
 					//memilih pakah mencari X, mencari konsentrasi oksigen, atau harga rumah
-					
+
 					switch(x) {
 						case 1: {
 							// algo mencari x
 							stop = false;
 							while(!stop) {
 								interpolation.xfxsolver(); //memanggil prosedur xfxsolver
-								
+
 								/*System.out.println("Continue(Y/N)");
-								
+
         						Scanner s= new Scanner(System.in);
 								char x = s.next().charAt(0);
-								
+
 								if ((x.equals("n")) || (x.equals("N"))) {
 									stop = true;
 								}
-        						
+
 							} //akan mengulang sampai user input bukan Y */
-							
+
 							break;
 							}
 						}
 						case 2: {
 							//algo mencari konsentrasi oksigen
 							break;
-						}	
+						}
 						default: {
 							// algo mencari harga rumah
 							break;
-						}				  
+						}
 					}
 					break;
 				}
 		   }
-			
+
         }
         catch (IOException e)
         {
