@@ -228,10 +228,11 @@ class SPLSolver
 	}
 	
 	void menuSPL() {
+		System.out.println();
 		System.out.println("Metode input");
-        System.out.println("1. Keyboard");
-        System.out.println("2. File");
-        System.out.printf("Pilihan: ");
+        	System.out.println("1. Keyboard");
+		System.out.println("2. File");
+        	System.out.printf("   Pilihan: ");
     }
         
 	void menuinterpolasi() {
@@ -257,6 +258,7 @@ class SPLSolver
 
 			utama.mainmenu();
 			
+			System.out.printf("Masukkan Pilihan : ");
 			Scanner pilmen = new Scanner(System.in); // Memilih menu SPL, implementasi, atau interpolasi
 			int p = Integer.parseInt(pilmen.nextLine());
 			//pilihan menu utama
@@ -308,13 +310,7 @@ class SPLSolver
 					  }				  
 					}
 		   }
-				
 			
-			
-            /*System.out.println("Metode input");
-            System.out.println("1. Keyboard");
-            System.out.println("2. File");
-            System.out.printf("Pilihan: ");*/
         }
         catch (IOException e)
         {
