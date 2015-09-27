@@ -214,34 +214,107 @@ class SPLSolver
             }
         }
     }
+    
+    void mainmenu() {
+		System.out.println("--------------------------------------------");
+		System.out.println("                   Menu                     ");
+		System.out.println("--------------------------------------------");
+		System.out.println();
+		System.out.println(" 1. SPL Solver");
+		System.out.println(" 2. Implementasi Metode Penyelesaian SPL");
+		System.out.println(" 3. Interpolasi");
+		System.out.println();
+		System.out.println("--------------------------------------------");
+	}
+	
+	void menuSPL() {
+		System.out.println("Metode input");
+        System.out.println("1. Keyboard");
+        System.out.println("2. File");
+        System.out.printf("Pilihan: ");
+    }
+        
+	void menuinterpolasi() {
+		System.out.println("--------------------------------------------");
+		System.out.println("              Menu Interpolasi              ");
+		System.out.println("--------------------------------------------");
+		System.out.println();
+		System.out.println(" 1. Mencari X");
+		System.out.println(" 2. Mencari Konsentrasi Oksigen Jenuh");
+		System.out.println(" 3. Harga Rumah");
+		System.out.println();
+		System.out.println("--------------------------------------------");
+	}
 
     public static void main(String[] args) throws IOException
     {
         try
         {
             SPLSolver spl = new SPLSolver();
+            SPLSolver interpolation = new SPLSolver();
+            SPLSolver utama = new SPLSolver();
+            SPLSolver implementasi = new SPLSolver();
 
-            System.out.println("Metode input");
+			utama.mainmenu();
+			
+			Scanner pilmen = new Scanner(System.in); // Memilih menu SPL, implementasi, atau interpolasi
+			int p = Integer.parseInt(pilmen.nextLine());
+			//pilihan menu utama
+			
+			switch (p) { 
+				case 1: {
+					/* Algo untuk penyelesaian SPL*/
+					spl.menuSPL();
+					Scanner in = new Scanner(System.in);
+					int c = Integer.parseInt(in.nextLine());
+
+					//cara input keyboard
+					if(c == 1)
+					{
+						spl.Read1SPL();
+						spl.Solver1SPL();
+					}
+					//cara input file
+					else
+					{
+						spl.Read2SPL();
+						spl.Solver2SPL();
+						System.out.println("Selesai");
+					}
+				}
+				case 2: {
+					//menu implementasi SPL
+					//algo implementasi SPL
+			    }
+				default: {
+					/* Algo untuk interpolasi */
+					interpolation.menuinterpolasi(); 
+					
+					Scanner interp = new Scanner(System.in);
+					int x = Integer.parseInt(interp.nextLine());
+
+					//memilih pakah mencari X, mencari konsentrasi oksigen, atau harga rumah
+					
+					switch(x) {
+						case 1: {
+						// algo mencari x
+							}
+						case 2: {
+						//algo mencari konsentrasi oksigen
+							}	
+						default: {
+						// algo mencari harga rumah
+						}
+					  }				  
+					}
+		   }
+				
+			
+			
+            /*System.out.println("Metode input");
             System.out.println("1. Keyboard");
             System.out.println("2. File");
-            System.out.printf("Pilihan: ");
-
-            Scanner in = new Scanner(System.in);
-            int c = Integer.parseInt(in.nextLine());
-
-            //cara input keyboard
-            if(c == 1)
-            {
-                spl.Read1SPL();
-                spl.Solver1SPL();
-            }
-            //cara input file
-            else
-            {
-                spl.Read2SPL();
-                spl.Solver2SPL();
-                System.out.println("Selesai");
-            }
+            System.out.printf("Pilihan: ");*/
         }
         catch (IOException e)
         {
