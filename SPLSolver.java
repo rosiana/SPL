@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 class SPLSolver
 {
     double[][] A; //matriks
-    double[] R; //hasil
     int n; //baris
     int m; //kolom
 
@@ -98,32 +97,6 @@ class SPLSolver
         out.println();
     }
 
-    void PrintAssignHasil1()
-    {
-        int n = A.length - 1;
-        int m = A[0].length - 1;
-        R = new double[n+1];
-        for(int i = 1; i <= n; i++)
-        {
-            R[i] = A[i][m];
-            System.out.println("x" + i + " = " + A[i][m]);
-        }
-    }
-
-    void PrintAssignHasil2()
-    {
-        int n = A.length - 1;
-        int m = A[0].length - 1;
-        R = new double[n+1];
-        for(int i = 1; i <= n; i++)
-        {
-            R[i] = A[i][m];
-            out.print("x" + i + " = " + A[i][m]);
-            out.println();
-        }
-        out.close();
-    }
-
     void Solver1SPL()
     {
         int i = 1;
@@ -200,6 +173,7 @@ class SPLSolver
             }
             j++;
         }
+        out.close();
     }
 
     void Swap(double[][] A, int i, int k, int j)
@@ -240,7 +214,7 @@ class SPLSolver
             }
         }
     }
-
+    
     void mainmenu() {
 		System.out.println("--------------------------------------------");
 		System.out.println("                   Menu                     ");
@@ -252,15 +226,15 @@ class SPLSolver
 		System.out.println();
 		System.out.println("--------------------------------------------");
 	}
-
+	
 	void menuSPL() {
 		System.out.println();
 		System.out.println("Metode input");
-        System.out.println("1. Keyboard");
+        	System.out.println("1. Keyboard");
 		System.out.println("2. File");
-        System.out.printf("   Pilihan: ");
+        	System.out.printf("   Pilihan: ");
     }
-
+        
 	void menuinterpolasi() {
 		System.out.println("--------------------------------------------");
 		System.out.println("              Menu Interpolasi              ");
@@ -271,21 +245,21 @@ class SPLSolver
 		System.out.println(" 3. Harga Rumah");
 		System.out.println();
 		System.out.println("--------------------------------------------");
-		System.out.printf("  Pilihan: ")
+		System.out.printf("  Pilihan: ");
 	}
 	
-	void tampilxfx(double[] datax, double[] datafx, NDatax) {
+	void tampilxfx(double[] datax, double[] datafx, int dat) {
 		int i;
 		System.out.println("| x ");
-		for (i=0; i<NDataX; i++) {
+		for (i=0; i<dat; i++) {
 			System.out.printf(" +datax[i]+ ");
-			if (i<=NDataX) {
+			if (i<=dat) {
 				System.out.println("|");
 			}
 		} // menuliskan data x;
-		for (i=0; i<NDataX; i++) {
+		for (i=0; i<dat; i++) {
 			System.out.printf(" +datafx[i]+ ");
-			if (i<=NDataX) {
+			if (i<=dat) {
 				System.out.println("|");
 			}
 		} // menuliskan data F(x);
@@ -303,14 +277,14 @@ class SPLSolver
 	void xfxsolver() {
 		int i;
 		int NDatax;
-		double[] dataxawal= {0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3}
-		double[] dataFXawal = {0.003, 0.067, 0. 148, 0.248, 0.370, 0.518, 0.697}
+		double[] dataxawal= {0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3};
+		double[] dataFXawal = {0.003, 0.067, 0.148, 0.248, 0.370, 0.518, 0.697};
 		double[] dataxbaru, dataFXbaru;
 	
 			System.out.println("-----Mencari Fx-----");
 			System.out.println("1. Tampilkan data x dan Fx");
 			System.out.println("2. Input data x dan Fx baru");
-			System.out.prinf("  Masukkan Pilihan : ");
+			System.out.printf("  Masukkan Pilihan : ");
 			
 			Scanner pilih = new Scanner(System.in);
 			int pil = Integer.parseInt(pilih.nextLine());
@@ -339,15 +313,16 @@ class SPLSolver
             SPLSolver interpolation = new SPLSolver();
             SPLSolver utama = new SPLSolver();
             SPLSolver implementasi = new SPLSolver();
+            boolean stop;
 
 			utama.mainmenu();
-
+			
 			System.out.printf("Masukkan Pilihan : ");
 			Scanner pilmen = new Scanner(System.in); // Memilih menu SPL, implementasi, atau interpolasi
 			int p = Integer.parseInt(pilmen.nextLine());
 			//pilihan menu utama
-
-			switch (p) {
+			
+			switch (p) { 
 				case 1: {
 					/* Algo untuk penyelesaian SPL*/
 					spl.menuSPL();
@@ -359,14 +334,12 @@ class SPLSolver
 					{
 						spl.Read1SPL();
 						spl.Solver1SPL();
-						spl.PrintAssignHasil1();
 					}
 					//cara input file
 					else
 					{
 						spl.Read2SPL();
 						spl.Solver2SPL();
-						spl.PrintAssignHasil2();
 						System.out.println("Selesai");
 					}
 					break;
@@ -374,43 +347,51 @@ class SPLSolver
 				case 2: {
 					//menu implementasi SPL
 					//algo implementasi SPL
+					break;
 			    }
 				default: {
 					/* Algo untuk interpolasi */
-					interpolation.menuinterpolasi();
-
+					interpolation.menuinterpolasi(); 
+					
 					Scanner interp = new Scanner(System.in);
 					int x = Integer.parseInt(interp.nextLine());
 
 					//memilih pakah mencari X, mencari konsentrasi oksigen, atau harga rumah
-
+					
 					switch(x) {
 						case 1: {
 							// algo mencari x
-<<<<<<< HEAD
-
-=======
-							do {
+							stop = false;
+							while(!stop) {
 								interpolation.xfxsolver(); //memanggil prosedur xfxsolver
-								System.out.println("Continue(Y/N)");
-        							char a = scan.next();
-							} while (a=='Y'|| a=='y') //akan mengulang sampai user input bukan Y
+								
+								/*System.out.println("Continue(Y/N)");
+								
+        						Scanner s= new Scanner(System.in);
+								char x = s.next().charAt(0);
+								
+								if ((x.equals("n")) || (x.equals("N"))) {
+									stop = true;
+								}
+        						
+							} //akan mengulang sampai user input bukan Y */
 							
->>>>>>> origin/master
 							break;
+							}
 						}
 						case 2: {
 							//algo mencari konsentrasi oksigen
 							break;
-						}
+						}	
 						default: {
 							// algo mencari harga rumah
 							break;
-						}
-					  }
+						}				  
 					}
+					break;
+				}
 		   }
-
+			
         }
         catch (IOException e)
         {
