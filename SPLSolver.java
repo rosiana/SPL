@@ -11,7 +11,7 @@ class SPLSolver
     BufferedReader in;
     PrintWriter out;
 
-    void Read1()
+    void Read1SPL()
     {
         Scanner in = new Scanner(System.in);
 
@@ -33,7 +33,7 @@ class SPLSolver
         PrintMatrix1(A);
     }
 
-    void Read2() throws IOException
+    void Read2SPL() throws IOException
     {
         Scanner inf = new Scanner(System.in);
 
@@ -97,7 +97,7 @@ class SPLSolver
         out.println();
     }
 
-    void Solver1()
+    void Solver1SPL()
     {
         int i = 1;
         int j = 1;
@@ -136,7 +136,7 @@ class SPLSolver
         }
     }
 
-    void Solver2()
+    void Solver2SPL()
     {
         int i = 1;
         int j = 1;
@@ -232,14 +232,14 @@ class SPLSolver
             //cara input keyboard
             if(c == 1)
             {
-                spl.Read1();
-                spl.Solver1();
+                spl.Read1SPL();
+                spl.Solver1SPL();
             }
             //cara input file
             else
             {
-                spl.Read2();
-                spl.Solver2();
+                spl.Read2SPL();
+                spl.Solver2SPL();
                 System.out.println("Selesai");
             }
         }
