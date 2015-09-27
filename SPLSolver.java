@@ -255,22 +255,27 @@ class SPLSolver
 	// mencari x //
 	void tampilxfx(double[] datax, double[] datafx, int dat) {
 		int i;
-		System.out.println("| x ");
+
+		System.out.println();
+		System.out.printf("| x  |");
 		for (i=0; i<dat; i++) {
-			System.out.printf(" +datax[i]+ ");
+			System.out.printf(" " +datax[i]+ " ");
 			if (i<=dat) {
-				System.out.println("|");
+				System.out.printf("|");
 			}
 		} // menuliskan data x;
+		System.out.println();
+		System.out.printf("| Fx |");
 		for (i=0; i<dat; i++) {
-			System.out.printf(" +datafx[i]+ ");
+			System.out.printf(" "+datafx[i]+" ");
 			if (i<=dat) {
-				System.out.println("|");
+				System.out.printf("|");
 			}
 		} // menuliskan data F(x);
-		
+		System.out.println();
+		System.out.println();
 		System.out.println("Cari nilai x ?");
-		System.out.println("Input : ");
+		System.out.printf("Input : ");
 		
 	}
 	
