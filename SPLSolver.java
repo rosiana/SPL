@@ -283,6 +283,7 @@ class SPLSolver
 						spl.Solver2SPL();
 						System.out.println("Selesai");
 					}
+					break;
 				}
 				case 2: {
 					//menu implementasi SPL
@@ -299,13 +300,17 @@ class SPLSolver
 					
 					switch(x) {
 						case 1: {
-						// algo mencari x
-							}
+							// algo mencari x
+							
+							break;
+						}
 						case 2: {
-						//algo mencari konsentrasi oksigen
-							}	
+							//algo mencari konsentrasi oksigen
+							break;
+						}	
 						default: {
-						// algo mencari harga rumah
+							// algo mencari harga rumah
+							break;
 						}
 					  }				  
 					}
