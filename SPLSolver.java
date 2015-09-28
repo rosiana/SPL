@@ -307,7 +307,7 @@ class SPLSolver
                 }
                 else
                 {
-                    if ((A[p][q] != 0) || (A[p][q] != 0))
+                    if ((A[p][q] != 0) || (A[p][q] != 1))
                     {
                         b = false;
                     }
