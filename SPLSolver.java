@@ -559,6 +559,168 @@ class SPLSolver
         }
         out.close();
     }
+    void ReadSPLArus() throws IOException
+    {
+        Scanner inf = new Scanner(System.in);
+
+        String input = "ArusIn.txt";
+        String output = "ArusOut.txt";
+
+        in = new BufferedReader(new FileReader(input));
+        out = new PrintWriter(new FileWriter(output));
+
+        String line = in.readLine();
+        StringTokenizer st = new StringTokenizer(line);
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        A = new double[n+1][m+1];
+
+        for (int i = 1; i <= n; i++)
+        {
+            line = in.readLine();
+            st = new StringTokenizer(line);
+            for(int j = 1; j <= m; j++)
+            {
+                A[i][j] = Double.parseDouble(st.nextToken());
+            }
+        }
+        in.close();
+        PrintMatrix1(A);
+        PrintMatrix2(out, A);
+	}
+	void AssignResultArus()
+    {
+        noSolution = IsNoSolution();
+        infiniteSolution = IsInfiniteSolution();
+        if (noSolution)
+        {
+            System.out.println("Tidak ada solusi");
+        }
+        else
+        {
+            if (infiniteSolution)
+            {
+                System.out.println("Solusi tidak terbatas");
+                GetInfiniteEquation();
+                int q = e.length - 1;
+                for (int p = 1; p <= q; p++)
+                {
+                    System.out.println(e[p]);
+                }
+            }
+            else
+            {
+                int n = A.length - 1;
+                int m = A[0].length - 1;
+                R = new double[n+1];
+                
+                R[1] = A[1][m];
+                System.out.println("I12" + " = " + A[1][m]);
+                 
+                R[2] = A[2][m];
+                System.out.println("I52" + " = " + A[2][m]); 
+                 
+                R[3] = A[3][m];
+                System.out.println("I32" + " = " + A[3][m]); 
+                 
+                R[4] = A[4][m];
+                System.out.println("I65" + " = " + A[4][m]); 
+                 
+                R[5] = A[5][m];
+                System.out.println("I54" + " = " + A[5][m]); 
+                 
+                R[6] = A[6][m];
+                System.out.println("I43" + " = " + A[6][m]); 
+                 
+                R[7] = A[7][m];
+                System.out.println("V2" + " = " + A[7][m]); 
+                 
+                R[8] = A[8][m];
+                System.out.println("V3" + " = " + A[8][m]); 
+                 
+                R[9] = A[9][m];
+                System.out.println("V4" + " = " + A[9][m]); 
+                 
+                R[10] = A[10][m];
+                System.out.println("V5" + " = " + A[10][m]); 
+                 
+                
+            }
+        }
+    }
+
+    void AssignResultArusTxt()
+    {
+        noSolution = IsNoSolution();
+        infiniteSolution = IsInfiniteSolution();
+        if (noSolution)
+        {
+            out.println("Tidak ada solusi");
+        }
+        else
+        {
+            if (infiniteSolution)
+            {
+                out.println("Solusi tidak terbatas");
+                GetInfiniteEquation();
+                int q = e.length - 1;
+                for (int p = 1; p <= q; p++)
+                {
+                    out.println(e[p]);
+                }
+            }
+            else
+            {
+                int n = A.length - 1;
+                int m = A[0].length - 1;
+                R = new double[n+1];
+                
+                R[1] = A[1][m];
+                out.print("I12" + " = " + A[1][m]);
+                out.println();
+                 
+                R[2] = A[2][m];
+                out.print("I52" + " = " + A[2][m]); 
+                out.println();
+                 
+                R[3] = A[3][m];
+                out.print("I32" + " = " + A[3][m]); 
+                out.println();
+                 
+                R[4] = A[4][m];
+                out.print("I65" + " = " + A[4][m]); 
+                out.println();
+                 
+                R[5] = A[5][m];
+                out.print("I54" + " = " + A[5][m]);
+                out.println(); 
+                 
+                R[6] = A[6][m];
+                out.print("I43" + " = " + A[6][m]);
+                out.println(); 
+                 
+                R[7] = A[7][m];
+                out.print("V2" + " = " + A[7][m]); 
+                out.println();
+                 
+                R[8] = A[8][m];
+                out.print("V3" + " = " + A[8][m]);
+                out.println(); 
+                 
+                R[9] = A[9][m];
+                out.print("V4" + " = " + A[9][m]); 
+                out.println();
+                 
+                R[10] = A[10][m];
+                out.print("V5" + " = " + A[10][m]);
+                out.println();    
+                
+                  
+            }
+        }
+        out.close();
+    }
 
     // kelompok menu
 
@@ -577,9 +739,9 @@ class SPLSolver
 	void menuSPL() {
 		System.out.println();
 		System.out.println("Metode input");
-        	System.out.println("1. Keyboard");
+        System.out.println("1. Keyboard");
 		System.out.println("2. File");
-        	System.out.printf("   Pilihan: ");
+        System.out.printf("   Pilihan: ");
     }
     
     void menuImplementasi() {
@@ -728,11 +890,16 @@ class SPLSolver
 						implementasi.Solver1SPL();
 						implementasi.Solver2SPL();
 						implementasi.AssignResultTeknikSipil();
-						
+						implementasi.AssignResultTeknikSipilTxt();
 					}
 					else
 					{
 						//Algo Arus Rangkaian Listrik
+						implementasi.ReadSPLArus();
+						implementasi.Solver1SPL();
+						implementasi.Solver2SPL();
+						implementasi.AssignResultArus();
+						implementasi.AssignResultArusTxt();
 					}
 					break;
 			    }
