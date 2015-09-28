@@ -115,7 +115,7 @@ class SPLSolver
             if (infiniteSolution)
             {
                 System.out.println("Solusi tidak terbatas");
-                GetInfiniteEquation();
+                GetInfiniteEquations();
                 int q = e.length - 1;
                 for (int p = 1; p <= q; p++)
                 {
@@ -149,7 +149,7 @@ class SPLSolver
             if (infiniteSolution)
             {
                 out.println("Solusi tidak terbatas");
-                GetInfiniteEquation();
+                GetInfiniteEquations();
                 int q = e.length - 1;
                 for (int p = 1; p <= q; p++)
                 {
@@ -289,28 +289,61 @@ class SPLSolver
         }
     }
 
-    boolean IsNoSolution()
+    boolean IsRowZero(int i)
     {
         boolean b = true;
+        int m = A[0].length - 1;
+        for (int p = 1; p <= m; p++)
+        {
+            if (A[i][p] != 0)
+            {
+                b = false;
+            }
+        }
+        return b;
+    }
+
+    boolean IsNoSolutionRow(int i)
+    {
+        boolean b = false;
+        int m = A[0].length - 2;
+        if (A[i][m+1] != 0)
+        {
+            b = true;
+            for (int p = 1; p <= m; p++)
+            {
+                if (A[i][p] != 0)
+                {
+                    b = false;
+                }
+            }
+        }
+        return b;
+    }
+
+    boolean IsNoSolution()
+    {
+        boolean b = false;
+        boolean f = false;
         int n = A.length - 1;
         int m = A[0].length - 2;
-        for (int p = n; p >= 1; p--) //tinjau dari baris bawah karena bawah duluan yang kosong
+        int p = n;
+        while ((p >= 1) && !f)
         {
-            for (int q = 1; q <= m; q++)
+            if (IsRowZero(p))
             {
-                if (A[p][m+1] != 0)
+                p--;
+            }
+            else
+            {
+                if (IsNoSolutionRow(p))
                 {
-                    if (A[p][q] != 0)
-                    {
-                        b = false;
-                    }
+                    b = true;
+                    f = true;
                 }
                 else
                 {
-                    if ((A[p][q] != 0) || (A[p][q] != 1))
-                    {
-                        b = false;
-                    }
+                    f = true;
                 }
             }
         }
@@ -355,10 +388,15 @@ class SPLSolver
                 b = true;
             }
         }
+        noSolution = IsNoSolution();
+        if (noSolution)
+        {
+            b = false;
+        }
         return b;
     }
 
-    void GetInfiniteEquation()
+    void GetInfiniteEquations()
     {
         int c = 0;
         int n = A.length - 1;
@@ -398,7 +436,8 @@ class SPLSolver
                     {
                         String y = e[u].substring(1,2);
                         int z = Integer.parseInt(y);
-                        if ((A[a][b] != 0) && (A[a][b] != -1) && (b != z) && (b != m+1))
+                        //nilai koefisien selain -1, 1, dan 0
+                        if ((A[a][b] != 0) && (A[a][b] != 1) && (A[a][b] != -1) && (b != z) && (b != m+1))
                         {
                             double x = (-1)*A[a][b];
                             if (x < 0)
@@ -412,7 +451,7 @@ class SPLSolver
                                     e[u] = e[u].substring(0, e[u].length()-3);
                                     e[u] += " - ";
                                 }
-                                e[u] += " " + A[a][b] + "x" + b + " + ";
+                                e[u] += A[a][b] + "x" + b + " + ";
                             }
                             else
                             {
@@ -421,15 +460,50 @@ class SPLSolver
                         }
                         else
                         {
+                            //nilai koefisien -1
                             if ((A[a][b] == -1) && (b != z) && (b != m+1))
                             {
                                 e[u] += " x" + b + " + ";
                             }
                             else
                             {
-                                if ((A[a][b] != 0) && (b == m+1)) //kolom konstanta
+                                //nilai koefisien 1
+                                if ((A[a][b] == 1)&& (b != z) && (b != m+1))
                                 {
-                                    e[u] += " " + A[a][b] + " + ";
+                                    if (e[u].length() <= 5)
+                                    {
+                                        e[u] += " -";
+                                    }
+                                    else
+                                    {
+                                        e[u] = e[u].substring(0, e[u].length()-3);
+                                        e[u] += " - ";
+                                    }
+                                    e[u] += "x" + b + " + ";
+                                }
+                                else
+                                {
+                                    //kolom konstanta
+                                    if ((A[a][b] != 0) && (b == m+1))
+                                    {
+                                        if (A[a][b] < 0)
+                                        {
+                                            if (e[u].length() <= 5)
+                                            {
+                                                e[u] += " -";
+                                            }
+                                            else
+                                            {
+                                                e[u] = e[u].substring(0, e[u].length()-3);
+                                                e[u] += " - ";
+                                            }
+                                            e[u] += (-1)*A[a][b] + " + ";
+                                        }
+                                        else
+                                        {
+                                            e[u] += " " + A[a][b] + " + ";
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -484,7 +558,7 @@ class SPLSolver
             if (infiniteSolution)
             {
                 System.out.println("Solusi tidak terbatas");
-                GetInfiniteEquation();
+                GetInfiniteEquations();
                 int q = e.length - 1;
                 for (int p = 1; p <= q; p++)
                 {
@@ -503,10 +577,10 @@ class SPLSolver
                 }
                 R[4] = A[4][m];
                 System.out.println("H" + 2 + " = " + A[4][m]);
-                
+
                 R[5] = A[5][m];
                 System.out.println("V" + 2 + " = " + A[5][m]);
-                
+
                 R[4] = A[4][m];
                 System.out.println("V" + 3 + " = " + A[6][m]);
             }
@@ -525,7 +599,7 @@ class SPLSolver
             if (infiniteSolution)
             {
                 out.println("Solusi tidak terbatas");
-                GetInfiniteEquation();
+                GetInfiniteEquations();
                 int q = e.length - 1;
                 for (int p = 1; p <= q; p++)
                 {
@@ -543,15 +617,15 @@ class SPLSolver
                     out.print("F" + i + " = " + A[i][m]);
                     out.println();
                 }
-                
+
                 R[4] = A[4][m];
                 out.print("H" + 2 + " = " + A[4][m]);
                 out.println();
-                
+
                 R[5] = A[5][m];
                 out.print("V" + 2 + " = " + A[5][m]);
                 out.println();
-                
+
                 R[6] = A[6][m];
                 out.print("V" + 3 + " = " + A[6][m]);
                 out.println();
@@ -602,7 +676,7 @@ class SPLSolver
             if (infiniteSolution)
             {
                 System.out.println("Solusi tidak terbatas");
-                GetInfiniteEquation();
+                GetInfiniteEquations();
                 int q = e.length - 1;
                 for (int p = 1; p <= q; p++)
                 {
@@ -614,38 +688,38 @@ class SPLSolver
                 int n = A.length - 1;
                 int m = A[0].length - 1;
                 R = new double[n+1];
-                
+
                 R[1] = A[1][m];
                 System.out.println("I12" + " = " + A[1][m]);
-                 
+
                 R[2] = A[2][m];
-                System.out.println("I52" + " = " + A[2][m]); 
-                 
+                System.out.println("I52" + " = " + A[2][m]);
+
                 R[3] = A[3][m];
-                System.out.println("I32" + " = " + A[3][m]); 
-                 
+                System.out.println("I32" + " = " + A[3][m]);
+
                 R[4] = A[4][m];
-                System.out.println("I65" + " = " + A[4][m]); 
-                 
+                System.out.println("I65" + " = " + A[4][m]);
+
                 R[5] = A[5][m];
-                System.out.println("I54" + " = " + A[5][m]); 
-                 
+                System.out.println("I54" + " = " + A[5][m]);
+
                 R[6] = A[6][m];
-                System.out.println("I43" + " = " + A[6][m]); 
-                 
+                System.out.println("I43" + " = " + A[6][m]);
+
                 R[7] = A[7][m];
-                System.out.println("V2" + " = " + A[7][m]); 
-                 
+                System.out.println("V2" + " = " + A[7][m]);
+
                 R[8] = A[8][m];
-                System.out.println("V3" + " = " + A[8][m]); 
-                 
+                System.out.println("V3" + " = " + A[8][m]);
+
                 R[9] = A[9][m];
-                System.out.println("V4" + " = " + A[9][m]); 
-                 
+                System.out.println("V4" + " = " + A[9][m]);
+
                 R[10] = A[10][m];
-                System.out.println("V5" + " = " + A[10][m]); 
-                 
-                
+                System.out.println("V5" + " = " + A[10][m]);
+
+
             }
         }
     }
@@ -663,7 +737,7 @@ class SPLSolver
             if (infiniteSolution)
             {
                 out.println("Solusi tidak terbatas");
-                GetInfiniteEquation();
+                GetInfiniteEquations();
                 int q = e.length - 1;
                 for (int p = 1; p <= q; p++)
                 {
@@ -675,48 +749,48 @@ class SPLSolver
                 int n = A.length - 1;
                 int m = A[0].length - 1;
                 R = new double[n+1];
-                
+
                 R[1] = A[1][m];
                 out.print("I12" + " = " + A[1][m]);
                 out.println();
-                 
+
                 R[2] = A[2][m];
-                out.print("I52" + " = " + A[2][m]); 
+                out.print("I52" + " = " + A[2][m]);
                 out.println();
-                 
+
                 R[3] = A[3][m];
-                out.print("I32" + " = " + A[3][m]); 
+                out.print("I32" + " = " + A[3][m]);
                 out.println();
-                 
+
                 R[4] = A[4][m];
-                out.print("I65" + " = " + A[4][m]); 
+                out.print("I65" + " = " + A[4][m]);
                 out.println();
-                 
+
                 R[5] = A[5][m];
                 out.print("I54" + " = " + A[5][m]);
-                out.println(); 
-                 
+                out.println();
+
                 R[6] = A[6][m];
                 out.print("I43" + " = " + A[6][m]);
-                out.println(); 
-                 
-                R[7] = A[7][m];
-                out.print("V2" + " = " + A[7][m]); 
                 out.println();
-                 
+
+                R[7] = A[7][m];
+                out.print("V2" + " = " + A[7][m]);
+                out.println();
+
                 R[8] = A[8][m];
                 out.print("V3" + " = " + A[8][m]);
-                out.println(); 
-                 
-                R[9] = A[9][m];
-                out.print("V4" + " = " + A[9][m]); 
                 out.println();
-                 
+
+                R[9] = A[9][m];
+                out.print("V4" + " = " + A[9][m]);
+                out.println();
+
                 R[10] = A[10][m];
                 out.print("V5" + " = " + A[10][m]);
-                out.println();    
-                
-                  
+                out.println();
+
+
             }
         }
         out.close();
@@ -743,7 +817,7 @@ class SPLSolver
 		System.out.println("2. File");
         System.out.printf("   Pilihan: ");
     }
-    
+
     void menuImplementasi() {
 		System.out.println();
 		System.out.println(" 1. Rangka Statis Berbentuk Segitiga");
@@ -879,10 +953,10 @@ class SPLSolver
 					//menu implementasi SPL
 					//algo implementasi SPL
 					implementasi.menuImplementasi();
-					
+
 					Scanner choiceImplement = new Scanner(System.in);
-					int choice = Integer.parseInt(choiceImplement.nextLine()); 
-					
+					int choice = Integer.parseInt(choiceImplement.nextLine());
+
 					if(choice == 1)
 					{
 						//Algo Insinyur Teknik Sipil-Rangka Segitiga
@@ -914,9 +988,9 @@ class SPLSolver
 
 					switch(x) {
 						case 1: {
-							
-							
-							
+
+
+
 							// algo mencari x
 							stop = false;
 							while(!stop) {
