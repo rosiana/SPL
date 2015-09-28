@@ -76,9 +76,9 @@ class SPLSolver
     {
         int n = A.length - 1;
         int m = A[0].length - 1;
-        for(int i = 1; i <= n; i++)
+        for (int i = 1; i <= n; i++)
         {
-            for(int j = 1; j <= m; j++)
+            for (int j = 1; j <= m; j++)
             {
                 System.out.printf(A[i][j] + "  ");
             }
@@ -91,9 +91,9 @@ class SPLSolver
     {
         int n = A.length - 1;
         int m = A[0].length - 1;
-        for(int i = 1; i <= n; i++)
+        for (int i = 1; i <= n; i++)
         {
-            for(int j = 1; j <= m; j++)
+            for (int j = 1; j <= m; j++)
             {
                 out.print(A[i][j] + "  ");
             }
@@ -127,7 +127,7 @@ class SPLSolver
                 int n = A.length - 1;
                 int m = A[0].length - 1;
                 R = new double[n+1];
-                for(int i = 1; i <= n; i++)
+                for (int i = 1; i <= n; i++)
                 {
                     R[i] = A[i][m];
                     System.out.println("x" + i + " = " + A[i][m]);
@@ -161,7 +161,7 @@ class SPLSolver
                 int n = A.length - 1;
                 int m = A[0].length - 1;
                 R = new double[n+1];
-                for(int i = 1; i <= n; i++)
+                for (int i = 1; i <= n; i++)
                 {
                     R[i] = A[i][m];
                     out.print("x" + i + " = " + A[i][m]);
@@ -177,7 +177,7 @@ class SPLSolver
         int i = 1;
         int j = 1;
         int k;
-        while(i <= n && j <= m)
+        while (i <= n && j <= m)
         {
             //cari angka bukan nol di kolom j atau di bawah baris i
             k = i;
@@ -186,17 +186,17 @@ class SPLSolver
                 k++;
             }
             //jika ada di baris k
-            if(k <= n)
+            if (k <= n)
             {
                 //jika k bukan i, swap baris i dengan baris k
-                if(k != i)
+                if (k != i)
                 {
                     Swap(A, i, k, j);
                     PrintMatrix1(A);
                 }
 
                 //jika A[i][j] bukan 1, bagi baris i dengan A[i][j]
-                if(A[i][j] != 1)
+                if (A[i][j] != 1)
                 {
                     Divide(A, i, j);
                     PrintMatrix1(A);
@@ -216,7 +216,7 @@ class SPLSolver
         int i = 1;
         int j = 1;
         int k;
-        while(i <= n && j <= m)
+        while (i <= n && j <= m)
         {
             //cari angka bukan nol di kolom j atau di bawah baris i
             k = i;
@@ -225,17 +225,17 @@ class SPLSolver
                 k++;
             }
             //jika ada di baris k
-            if(k <= n)
+            if (k <= n)
             {
                 //jika k bukan i, swap baris i dengan baris k
-                if(k != i)
+                if (k != i)
                 {
                     Swap(A, i, k, j);
                     PrintMatrix2(out, A);
                 }
 
                 //jika A[i][j] bukan 1, bagi baris i dengan A[i][j]
-                if(A[i][j] != 1)
+                if (A[i][j] != 1)
                 {
                     Divide(A, i, j);
                     PrintMatrix2(out, A);
@@ -254,7 +254,7 @@ class SPLSolver
     {
         int m = A[0].length - 1;
         double temp;
-        for(int q = j; q <= m; q++)
+        for (int q = j; q <= m; q++)
         {
             temp = A[i][q];
             A[i][q] = A[k][q];
@@ -265,7 +265,7 @@ class SPLSolver
     void Divide(double[][] A, int i, int j)
     {
         int m = A[0].length - 1;
-        for(int q = j+1; q <= m; q++)
+        for (int q = j+1; q <= m; q++)
         {
             A[i][q] /= A[i][j];
         }
@@ -276,11 +276,11 @@ class SPLSolver
    {
         int n = A.length - 1;
         int m = A[0].length - 1;
-        for(int p = 1; p <= n; p++)
+        for (int p = 1; p <= n; p++)
         {
-            if(p != i && A[p][j] != 0 )
+            if (p != i && A[p][j] != 0 )
             {
-                for(int q = j+1; q <= m; q++)
+                for (int q = j+1; q <= m; q++)
                 {
                     A[p][q] -= A[p][j]*A[i][q];
                 }
@@ -301,6 +301,13 @@ class SPLSolver
                 if (A[p][m+1] != 0)
                 {
                     if (A[p][q] != 0)
+                    {
+                        b = false;
+                    }
+                }
+                else
+                {
+                    if ((A[p][q] != 0) || (A[p][q] != 0))
                     {
                         b = false;
                     }
@@ -354,6 +361,7 @@ class SPLSolver
     void GetInfiniteEquation()
     {
         int c = 0;
+        int n = A.length - 1;
         int m = A[0].length - 2;
         for (int p = m; p >= 1; p--) //tinjau dari kolom paling belakang
         {
@@ -364,32 +372,48 @@ class SPLSolver
         }
         e = new String[c+1]; //penampung persamaan
         int[] r = new int[c+1]; //buat nyimpen suatu persamaan ada di baris mana
+        int u = 1;
         for (int q = 1; q <= m; q++)
         {
             if (!IsInfiniteColumn(q))
             {
-                e[q] = "x" + q + " =";
+                e[u] = "x" + q + " =";
                 int k = 1;
-                while (k <= n && A[k][q] != 1)
+                while (k <= m && A[k][q] != 1)
                 {
                     k++;
                 }
-                System.out.println(" " + k);
-                r[q] = k;
+                r[u] = k;
+                u++;
             }
         }
-        for (int s = 1; s <= e.length; s++)
+        u = 1;
+        while (u <= e.length-1)
         {
-            if (s == r[s])
+            for (int a = 1; a <= m; a++)
             {
-                for (int t = 1; t <= m; t++)
+                if (a == r[u])
                 {
-                    if ((A[s][t] != 0) && (A[s][t] != 1))
+                    for (int b = 1; b <= m; b++)
                     {
-                        e[s] += " " + (-1)*A[s][t] + "x" + t + " + ";
+                        String y = e[u].substring(1,2);
+                        int z = Integer.parseInt(y);
+                        if ((A[a][b] != 0) && (A[a][b] != -1) && (b != z))
+                        {
+                            e[u] += " " + (-1)*A[a][b] + "x" + b + " + ";
+                        }
+                        else
+                        {
+                            if ((A[a][b] == -1) && (b != z))
+                            {
+                                e[u] += " x" + b + " + ";
+                            }
+                        }
                     }
+                    e[u] = e[u].substring(0, e[u].length()-3);
                 }
             }
+            u++;
         }
     }
 
