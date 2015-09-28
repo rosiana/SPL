@@ -37,6 +37,10 @@ class SPLSolver
                 A[i][j] = Double.parseDouble(in.nextLine());
             }
         }
+        System.out.println();
+        System.out.println();
+        System.out.println("Matriks awal");
+        System.out.println("-------------------------------------------------------------------------------");
         PrintMatrix1(A);
     }
 
@@ -69,6 +73,8 @@ class SPLSolver
             }
         }
         in.close();
+        out.println("Matriks awal");
+        out.println("-------------------------------------------------------------------------------");
         PrintMatrix2(out, A);
     }
 
@@ -108,12 +114,14 @@ class SPLSolver
         infiniteSolution = IsInfiniteSolution();
         if (noSolution)
         {
+            System.out.println();
             System.out.println("Tidak ada solusi");
         }
         else
         {
             if (infiniteSolution)
             {
+                System.out.println();
                 System.out.println("Solusi tidak terbatas");
                 GetInfiniteEquations();
                 int q = e.length - 1;
@@ -192,17 +200,23 @@ class SPLSolver
                 if (k != i)
                 {
                     Swap(A, i, k, j);
+                    System.out.println("Tukar baris ke-" + i + " dengan baris ke-" + k);
+                    System.out.println("-------------------------------------------------------------------------------");
                     PrintMatrix1(A);
                 }
 
                 //jika A[i][j] bukan 1, bagi baris i dengan A[i][j]
                 if (A[i][j] != 1)
                 {
+                    System.out.println("Bagi baris ke-" + i + " dengan " + A[i][j]);
+                    System.out.println("-------------------------------------------------------------------------------");
                     Divide(A, i, j);
                     PrintMatrix1(A);
                 }
                 //hapus semua angka bukan nol dari kolom j dengan mengurangi masing-masing baris
                 //selain i dengan sejumlah kelipatan i
+                System.out.println("Kurangi masing-masing baris dengan kelipatan baris ke-" + i);
+                System.out.println("-------------------------------------------------------------------------------");
                 Eliminate(A, i, j);
                 PrintMatrix1(A);
                 i++;
@@ -230,6 +244,8 @@ class SPLSolver
                 //jika k bukan i, swap baris i dengan baris k
                 if (k != i)
                 {
+                    out.println("Tukar baris ke-" + i + " dengan baris ke-" + k);
+                    out.println("-------------------------------------------------------------------------------");
                     Swap(A, i, k, j);
                     PrintMatrix2(out, A);
                 }
@@ -237,11 +253,15 @@ class SPLSolver
                 //jika A[i][j] bukan 1, bagi baris i dengan A[i][j]
                 if (A[i][j] != 1)
                 {
+                    out.println("Bagi baris ke-" + i + " dengan " + A[i][j]);
+                    out.println("-------------------------------------------------------------------------------");
                     Divide(A, i, j);
                     PrintMatrix2(out, A);
                 }
                 //hapus semua angka bukan nol dari kolom j dengan mengurangi masing-masing baris
-                //selain i dengan sejumlah kelipatan i
+                //selain i dengan sejumlah kelipatan iSystem.out.println("Kurangi masing-masing baris dengan kelipatan baris ke-" + i);
+                out.println("Kurangi masing-masing baris dengan kelipatan baris ke-" + i);
+                out.println("-------------------------------------------------------------------------------");
                 Eliminate(A, i, j);
                 PrintMatrix2(out, A);
                 i++;
