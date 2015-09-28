@@ -394,19 +394,43 @@ class SPLSolver
             {
                 if (a == r[u])
                 {
-                    for (int b = 1; b <= m; b++)
+                    for (int b = 1; b <= m+1; b++)
                     {
                         String y = e[u].substring(1,2);
                         int z = Integer.parseInt(y);
-                        if ((A[a][b] != 0) && (A[a][b] != -1) && (b != z))
+                        if ((A[a][b] != 0) && (A[a][b] != -1) && (b != z) && (b != m+1))
                         {
-                            e[u] += " " + (-1)*A[a][b] + "x" + b + " + ";
+                            double x = (-1)*A[a][b];
+                            if (x < 0)
+                            {
+                                if (e[u].length() <= 5)
+                                {
+                                    e[u] += " -";
+                                }
+                                else
+                                {
+                                    e[u] = e[u].substring(0, e[u].length()-3);
+                                    e[u] += " - ";
+                                }
+                                e[u] += " " + A[a][b] + "x" + b + " + ";
+                            }
+                            else
+                            {
+                                e[u] += " " + (-1)*A[a][b] + "x" + b + " + ";
+                            }
                         }
                         else
                         {
-                            if ((A[a][b] == -1) && (b != z))
+                            if ((A[a][b] == -1) && (b != z) && (b != m+1))
                             {
                                 e[u] += " x" + b + " + ";
+                            }
+                            else
+                            {
+                                if ((A[a][b] != 0) && (b == m+1)) //kolom konstanta
+                                {
+                                    e[u] += " " + A[a][b] + " + ";
+                                }
                             }
                         }
                     }
