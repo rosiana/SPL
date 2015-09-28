@@ -440,6 +440,125 @@ class SPLSolver
             u++;
         }
     }
+    // Kelompok Implementasi
+    void ReadSPLTeknikSipil() throws IOException
+    {
+        Scanner inf = new Scanner(System.in);
+
+        String input = "TeknikSipilIn.txt";
+        String output = "TeknikSipilOut.txt";
+
+        in = new BufferedReader(new FileReader(input));
+        out = new PrintWriter(new FileWriter(output));
+
+        String line = in.readLine();
+        StringTokenizer st = new StringTokenizer(line);
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        A = new double[n+1][m+1];
+
+        for (int i = 1; i <= n; i++)
+        {
+            line = in.readLine();
+            st = new StringTokenizer(line);
+            for(int j = 1; j <= m; j++)
+            {
+                A[i][j] = Double.parseDouble(st.nextToken());
+            }
+        }
+        in.close();
+        PrintMatrix1(A);
+        PrintMatrix2(out, A);
+    }
+    void AssignResultTeknikSipil()
+    {
+        noSolution = IsNoSolution();
+        infiniteSolution = IsInfiniteSolution();
+        if (noSolution)
+        {
+            System.out.println("Tidak ada solusi");
+        }
+        else
+        {
+            if (infiniteSolution)
+            {
+                System.out.println("Solusi tidak terbatas");
+                GetInfiniteEquation();
+                int q = e.length - 1;
+                for (int p = 1; p <= q; p++)
+                {
+                    System.out.println(e[p]);
+                }
+            }
+            else
+            {
+                int n = A.length - 1;
+                int m = A[0].length - 1;
+                R = new double[n+1];
+                for (int i = 1; i <= 3; i++)
+                {
+                    R[i] = A[i][m];
+                    System.out.println("F" + i + " = " + A[i][m]);
+                }
+                R[4] = A[4][m];
+                System.out.println("H" + 2 + " = " + A[4][m]);
+                
+                R[5] = A[5][m];
+                System.out.println("V" + 2 + " = " + A[5][m]);
+                
+                R[4] = A[4][m];
+                System.out.println("V" + 3 + " = " + A[6][m]);
+            }
+        }
+    }
+    void AssignResultTeknikSipilTxt()
+    {
+        noSolution = IsNoSolution();
+        infiniteSolution = IsInfiniteSolution();
+        if (noSolution)
+        {
+            out.println("Tidak ada solusi");
+        }
+        else
+        {
+            if (infiniteSolution)
+            {
+                out.println("Solusi tidak terbatas");
+                GetInfiniteEquation();
+                int q = e.length - 1;
+                for (int p = 1; p <= q; p++)
+                {
+                    out.println(e[p]);
+                }
+            }
+            else
+            {
+                int n = A.length - 1;
+                int m = A[0].length - 1;
+                R = new double[n+1];
+                for (int i = 1; i <= 3; i++)
+                {
+                    R[i] = A[i][m];
+                    out.print("F" + i + " = " + A[i][m]);
+                    out.println();
+                }
+                
+                R[4] = A[4][m];
+                out.print("H" + 2 + " = " + A[4][m]);
+                out.println();
+                
+                R[5] = A[5][m];
+                out.print("V" + 2 + " = " + A[5][m]);
+                out.println();
+                
+                R[6] = A[6][m];
+                out.print("V" + 3 + " = " + A[6][m]);
+                out.println();
+            }
+        }
+        out.close();
+    }
 
     // kelompok menu
 
@@ -458,10 +577,19 @@ class SPLSolver
 	void menuSPL() {
 		System.out.println();
 		System.out.println("Metode input");
-        System.out.println("1. Keyboard");
+        	System.out.println("1. Keyboard");
 		System.out.println("2. File");
-        System.out.printf("   Pilihan: ");
+        	System.out.printf("   Pilihan: ");
     }
+    
+    void menuImplementasi() {
+		System.out.println();
+		System.out.println(" 1. Rangka Statis Berbentuk Segitiga");
+		System.out.println(" 2. Arus Pada Rangkaian Listrik");
+		System.out.println();
+		System.out.println("--------------------------------------------");
+		System.out.printf("  Pilihan: ");
+	}
 
 	void menuinterpolasi() {
 		System.out.println("--------------------------------------------");
@@ -588,6 +716,24 @@ class SPLSolver
 				case 2: {
 					//menu implementasi SPL
 					//algo implementasi SPL
+					implementasi.menuImplementasi();
+					
+					Scanner choiceImplement = new Scanner(System.in);
+					int choice = Integer.parseInt(choiceImplement.nextLine()); 
+					
+					if(choice == 1)
+					{
+						//Algo Insinyur Teknik Sipil-Rangka Segitiga
+						implementasi.ReadSPLTeknikSipil();
+						implementasi.Solver1SPL();
+						implementasi.Solver2SPL();
+						implementasi.AssignResultTeknikSipil();
+						
+					}
+					else
+					{
+						//Algo Arus Rangkaian Listrik
+					}
 					break;
 			    }
 				default: {
@@ -601,20 +747,20 @@ class SPLSolver
 
 					switch(x) {
 						case 1: {
+							
+							
+							
 							// algo mencari x
 							stop = false;
 							while(!stop) {
 								interpolation.xfxsolver(); //memanggil prosedur xfxsolver
 
 								/*System.out.println("Continue(Y/N)");
-
         						Scanner s= new Scanner(System.in);
 								char x = s.next().charAt(0);
-
 								if ((x.equals("n")) || (x.equals("N"))) {
 									stop = true;
 								}
-
 							} //akan mengulang sampai user input bukan Y */
 
 							break;
