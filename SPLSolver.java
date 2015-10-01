@@ -949,19 +949,19 @@ class SPLSolver
 		System.out.println("-------------------------------------------------------------------------------");
 		switch(tipe) {
 			case 1 : {
-				System.out.printf("                           Matriks X - F(x)                                 "); 
+				System.out.println("                           Matriks X - F(x)                                 "); 
 				break;
 			}
 			case 2 : {
-				System.out.printf("                           Matriks 10 Derajat                               "); 
+				System.out.println("                           Matriks 10 Derajat                               "); 
 				break;
 			}
 			case 3 : {
-				System.out.printf("                           Matriks 20 Derajat                               "); 
+				System.out.println("                           Matriks 20 Derajat                               "); 
 				break;
 			}
 			default : {
-				System.out.printf("                           Matriks Harga Rumah                              "); 
+				System.out.println("                           Matriks Harga Rumah                              "); 
 				break;
 			}
 		}
@@ -1014,7 +1014,7 @@ class SPLSolver
 			System.out.println();
 			System.out.println("-----Mencari Fx-----");
 			System.out.println("1. Tampilkan data x dan Fx");
-			System.out.println("2. Input data x dan Fx baru");
+			//System.out.println("2. Input data x dan Fx baru");
 			System.out.printf("  Masukkan Pilihan : ");
 			
 
@@ -1119,7 +1119,7 @@ class SPLSolver
             }
 				 
                 
-			System.out.println("" + String.format( "%.5f", hasil) ); //menuliskan hasil dengan presisi 5 angka di setelah koma
+			System.out.println("Perkiraan f(x) : " + String.format( "%.5f", hasil) ); //menuliskan hasil dengan presisi 5 angka di setelah koma
 		}
 
     public static void main(String[] args) throws IOException
