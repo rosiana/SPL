@@ -935,27 +935,6 @@ class SPLSolver
 				System.out.println();
 	}
 	
-	void AssignResult2interp() {
-                int n = A.length - 1;
-                int m = A[0].length - 1;
-                R = new double[n+1];
-                out.print("Persamaan: f(x) = ");
-                for (int i = 1; i <= n; i++)
-                {
-                    R[i] = A[i][m];      
-					if ((A[i][m]>eps) || (A[i][m]<(-eps))) {
-						out.print(A[i][m] + "x^" + (i-1));
-						if (i<n) {
-							out.print(" + ");
-						}
-					} else
-						out.print(A[i][m]);
-
-                }
-    }
-	
-	
-	
 	void penyelesaianinterp1(double[] x, double[] y, int idxmax, int tipe) { // menggunakan keyboard
 		int i, j, colmax;
 		
