@@ -1005,34 +1005,6 @@ class SPLSolver
 	PrintMatrix1(A);
 	}
 	
-	/*void penyelesaianinterp2(double[] x, double[] y, int idxmax) throws IOException { // menggunakan file
-			System.out.printf("Masukkan nama file input: ");
-			Scanner inf = new Scanner(System.in);
-			String input = inf.nextLine() + ".txt";
-			System.out.printf("Masukkan nama file output: ");
-			String output = inf.nextLine() + ".txt";
-							
-			in = new BufferedReader(new FileReader(input));
-			out = new PrintWriter(new FileWriter(output));
-			
-			int i, j, colmax;
-		
-			Scanner inp = new Scanner(System.in);
-			int derajat = Integer.parseInt(inp.nextLine());
-			colmax=derajat+1;
-		
-			A = new double[idxmax+1][colmax+1];
-		
-			for (i=0; i<idxmax; i++) {
-				for (j=0; j<colmax; j++) {
-					if ((j == colmax-1) && (j>1)) {
-						A[i][j] = y[i];
-					} else
-						A[i][j] = Math.pow(x[i], j-1);
-				}
-			}
-	}*/
-	
 	// mencari x //
 	void tampilxfx(double[] datax, double[] datafx, int dat) {
 		int i;
