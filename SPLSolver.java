@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.lang.*;
 
 class SPLSolver
 {
@@ -11,6 +12,12 @@ class SPLSolver
     int m; //kolom
     boolean noSolution = false; //true jika nggak ada solusi
     boolean infiniteSolution = false; //true jika solusi tdk terbatas
+    double[] data10awal= {11.6, 10.3, 9.1, 8.2, 7.4, 6.8};
+	double[] data20awal= {10.5, 9.2, 8.2, 7.4, 6.7, 6.1};
+	double[] datasuhuawal = {5, 10, 15, 20, 25, 30};
+	double[] dataxawal= {0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3};
+	double[] dataFXawal = {0.003, 0.067, 0.148, 0.248, 0.370, 0.518, 0.697};
+	double epsilon = 0.000001;
 
     BufferedReader in;
     PrintWriter out;
@@ -534,7 +541,9 @@ class SPLSolver
             u++;
         }
     }
+    
     // Kelompok Implementasi
+    
     void ReadSPLTeknikSipil() throws IOException
     {
         Scanner inf = new Scanner(System.in);
@@ -830,7 +839,7 @@ class SPLSolver
 		System.out.println("--------------------------------------------");
 	}
 
-	void menuSPL() {
+	void menuinput() {
 		System.out.println();
 		System.out.println("Metode input");
         System.out.println("1. Keyboard");
@@ -861,11 +870,155 @@ class SPLSolver
 	}
 
 	// KELOMPOK INTERPOLASI
+	
+	void interpolsolver() {
+		int i = 1;
+        int j = 1;
+        int k;
+        while (i <= n && j <= m)
+        {
+            //cari angka bukan nol di kolom j atau di bawah baris i
+            k = i;
+            while (k <= n && A[k][j] == 0)
+            {
+                k++;
+            }
+            //jika ada di baris k
+            if (k <= n)
+            {
+                //jika k bukan i, swap baris i dengan baris k
+                if (k != i)
+                {
+                    Swap(A, i, k, j);
+                    System.out.println("Tukar baris ke-" + i + " dengan baris ke-" + k);
+                    System.out.println("-------------------------------------------------------------------------------");
+                }
 
+                //jika A[i][j] bukan 1, bagi baris i dengan A[i][j]
+                if (A[i][j] != 1)
+                {
+                    System.out.println("Bagi baris ke-" + i + " dengan " + A[i][j]);
+                    System.out.println("-------------------------------------------------------------------------------");
+                    Divide(A, i, j);
+                }
+                //hapus semua angka bukan nol dari kolom j dengan mengurangi masing-masing baris
+                //selain i dengan sejumlah kelipatan i
+                Eliminate(A, i, j);
+                i++;
+            }
+            j++;
+        }
+     }
+	void AssignResult1interp() {
+                int n = A.length - 1;
+                int m = A[0].length - 1;
+                
+                
+                R = new double[n+1];
+                System.out.print("Persamaan : f(x) = ");
+                for (int i = 1; i <= n; i++)
+                {	
+					R[i] = A[i][m];
+                    if ((A[i][m]>epsilon) || (A[i][m]<(-epsilon))){
+						System.out.print(A[i][m] + "x^" + (i-1));
+						if (i<n) {
+							System.out.print(" + ");
+						}
+					} else
+						System.out.println(A[i][m]);
+
+                }
+            //}
+        //}
+	}
+	
+	void AssignResult2interp() {
+                int n = A.length - 1;
+                int m = A[0].length - 1;
+                R = new double[n+1];
+                out.print("Persamaan: f(x) = ");
+                for (int i = 1; i <= n; i++)
+                {
+                    R[i] = A[i][m];      
+					if ((A[i][m]>epsilon) || (A[i][m]<(-epsilon))) {
+						out.print(A[i][m] + "x^" + (i-1));
+						if (i<n) {
+							out.print(" + ");
+						}
+					} else
+						out.print(A[i][m]);
+
+                }
+    }
+	
+	
+	
+	void penyelesaianinterp1(double[] x, double[] y, int idxmax, int tipe) { // menggunakan keyboard
+		int i, j, colmax;
+		
+		
+		
+		System.out.printf("Tulis derajat : ");
+		Scanner inp = new Scanner(System.in);
+		int derajat = Integer.parseInt(inp.nextLine());
+		colmax=derajat+1;
+		n = idxmax;
+		m = colmax;
+		switch(tipe) {
+			case 1 : System.out.printf("Matriks X - F(x)");
+			case 2 : System.out.printf("Matriks 10 Derajat");
+			case 3 : System.out.printf("Matriks 20 Derajat");
+			default : System.out.printf("Matriks Harga Rumah");
+		}
+		A = new double[idxmax+1][colmax+1];
+		
+		for (i=1; i<=idxmax; i++) {
+			for (j=1; j<=colmax; j++) {
+				if ((j == colmax)) {
+					A[i][j] = y[i-1];
+				} else
+					A[i][j] = Math.pow(x[i-1], j-1);
+			}
+		}
+		
+		System.out.println();
+        System.out.println();
+        System.out.println("Matriks awal");
+        System.out.println("-------------------------------------------------------------------------------");
+        PrintMatrix1(A);
+	}
+	
+	/*void penyelesaianinterp2(double[] x, double[] y, int idxmax) throws IOException { // menggunakan file
+			System.out.printf("Masukkan nama file input: ");
+			Scanner inf = new Scanner(System.in);
+			String input = inf.nextLine() + ".txt";
+			System.out.printf("Masukkan nama file output: ");
+			String output = inf.nextLine() + ".txt";
+							
+			in = new BufferedReader(new FileReader(input));
+			out = new PrintWriter(new FileWriter(output));
+			
+			int i, j, colmax;
+		
+			Scanner inp = new Scanner(System.in);
+			int derajat = Integer.parseInt(inp.nextLine());
+			colmax=derajat+1;
+		
+			A = new double[idxmax+1][colmax+1];
+		
+			for (i=0; i<idxmax; i++) {
+				for (j=0; j<colmax; j++) {
+					if ((j == colmax-1) && (j>1)) {
+						A[i][j] = y[i];
+					} else
+						A[i][j] = Math.pow(x[i], j-1);
+				}
+			}
+	}*/
+	
 	// mencari x //
 	void tampilxfx(double[] datax, double[] datafx, int dat) {
 		int i;
-
 		System.out.println();
 		System.out.printf("| x  |");
 		for (i=0; i<dat; i++) {
@@ -882,49 +1035,104 @@ class SPLSolver
 				System.out.printf("|");
 			}
 		} // menuliskan data F(x);
+		
 		System.out.println();
-		System.out.println();
-		System.out.println("Cari nilai x ?");
-		System.out.printf("Input : ");
-
 	}
-
-	/* void inisiasitabelx() {
-		//inisasi dilakukan bila user menggunakan data yang sudah ada/ tidak ada data input user
-		double[] datax;
-	} */
 
 	void xfxsolver() {
 		int i;
 		int NDatax;
-		double[] dataxawal= {0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3};
-		double[] dataFXawal = {0.003, 0.067, 0.148, 0.248, 0.370, 0.518, 0.697};
+		
 		double[] dataxbaru, dataFXbaru;
-
+			System.out.printf("Masuk ga?");
 			System.out.println("-----Mencari Fx-----");
 			System.out.println("1. Tampilkan data x dan Fx");
-			System.out.println("2. Input data x dan Fx baru");
+			//System.out.println("2. Input data x dan Fx baru");
 			System.out.printf("  Masukkan Pilihan : ");
+			
 
 			Scanner pilih = new Scanner(System.in);
 			int pil = Integer.parseInt(pilih.nextLine());
 
 			if (pil==1) {
 				NDatax = 7; //nilai data x dan fx sama
-				tampilxfx(dataxawal, dataFXawal, NDatax);
-				Scanner input = new Scanner(System.in);
-				int inp = Integer.parseInt(input.nextLine());
-			} /*else
-			{
-				System.out.println("Berapa data yang ingin diinput?");
-				System.out.printf("Masukkan : ");
-			}*/ //masih opsional dan terllau ribet
-
-
+				tampilxfx(dataxawal, dataFXawal, NDatax); //menampilkan tampilxf
+				
+				penyelesaianinterp1(dataxawal, dataFXawal, NDatax, 1);
+				//panggil penyelesaian untuk x
+			}
 	}
 
 	// akhir mencari x
+	
+	void konsentrasisolv() {
+		int i;
+		
+		
+			System.out.println("-----Mencari Konsentrasi Oksigen-----");
+			System.out.println("1. Tampilkan data-data awal");
+			//System.out.println("2. Input data-data baru");
+			System.out.printf("  Masukkan Pilihan : ");
 
+			Scanner pilih = new Scanner(System.in);
+			int pil = Integer.parseInt(pilih.nextLine());
+
+			if (pil==1) {
+				int NDatax = 6; //nilai data x dan fx sama
+				System.out.println("Data untuk suhu 10 derajat : ");
+				tampilxfx(datasuhuawal, data10awal, NDatax); //menampilkan tampilxfx
+				System.out.println("Data untuk suhu 20 derajat : ");
+				tampilxfx(datasuhuawal, data20awal, NDatax);
+				System.out.printf("Untuk suhu 10 derajat, ");
+				penyelesaianinterp1(datasuhuawal, data10awal, NDatax, 2);
+				//panggil penyelesaian untuk suhu  x dan y
+				System.out.printf("Untuk suhu 20 derajat, ");
+				penyelesaianinterp1(datasuhuawal, data20awal, NDatax, 3);
+								
+			}
+		}
+		
+		
+		void hargarumahsolv() {
+		double[] datatahunawal= {1950, 1955, 1960, 1965, 1966, 1967, 1968, 1969};
+		double[] datahargaawal= {33,525, 46,519, 53,941, 72,319, 75,160, 76,160, 84,690, 90,866};
+		
+			System.out.println("-----Mencari Harga Rumah-----");
+			System.out.println("1. Tampilkan data-data awal");
+			//System.out.println("2. Input data-data baru");
+			System.out.printf("  Masukkan Pilihan : ");
+
+			Scanner pilih = new Scanner(System.in);
+			int pil = Integer.parseInt(pilih.nextLine());
+
+			if (pil==1) {
+				int NDatax = 8; //nilai data x dan fx sama
+				tampilxfx(datatahunawal, datahargaawal, NDatax); //menampilkan tampilxfx
+				penyelesaianinterp1(datatahunawal, datahargaawal, NDatax, 4);
+				
+							//panggil penyelesaian untuk suhu  x dan y
+			}
+		}
+		
+		void carix() {
+			System.out.println("Tulis x yang ingin dicari: ");
+			System.out.printf("-> ");
+			Scanner input = new Scanner(System.in);
+			Double inp = Double.parseDouble(input.nextLine()); 
+			
+			
+			int n = A.length - 1;
+			int m = A[0].length - 1;
+			R = new double[n+1];
+			double hasil = 0;
+			for (int i = 1; i <= n; i++) {
+					if ((A[i][m]>epsilon) || (A[i][m]<(-epsilon))) {
+						hasil = hasil + A[i][m]*Math.pow(inp,i-1);
+					}
+                }
+                
+			System.out.printf("" + String.format( "%.5f", hasil) );
+		}
 
     public static void main(String[] args) throws IOException
     {
@@ -946,7 +1154,7 @@ class SPLSolver
 			switch (p) {
 				case 1: {
 					/* Algo untuk penyelesaian SPL*/
-					spl.menuSPL();
+					spl.menuinput();
 					Scanner in = new Scanner(System.in);
 					int c = Integer.parseInt(in.nextLine());
                     System.out.println();
@@ -1004,35 +1212,33 @@ class SPLSolver
 					Scanner interp = new Scanner(System.in);
 					int x = Integer.parseInt(interp.nextLine());
 
-					//memilih pakah mencari X, mencari konsentrasi oksigen, atau harga rumah
+					//memilih apakah mencari X, mencari konsentrasi oksigen, atau harga rumah
 
 					switch(x) {
 						case 1: {
-
-
-
-							// algo mencari x
-							stop = false;
-							while(!stop) {
-								interpolation.xfxsolver(); //memanggil prosedur xfxsolver
-
-								/*System.out.println("Continue(Y/N)");
-        						Scanner s= new Scanner(System.in);
-								char x = s.next().charAt(0);
-								if ((x.equals("n")) || (x.equals("N"))) {
-									stop = true;
-								}
-							} //akan mengulang sampai user input bukan Y */
-
+							interpolation.xfxsolver(); //memanggil prosedur xfxsolver
+							interpolation.interpolsolver();
+							interpolation.AssignResult1interp();
+							System.out.println("Cari nilai x :");
+							interpolation.carix();					
 							break;
 							}
-						}
 						case 2: {
 							//algo mencari konsentrasi oksigen
+							interpolation.konsentrasisolv();
+							interpolation.interpolsolver();
+							interpolation.AssignResult1interp();
+							System.out.println("Cari nilai x :");
+							interpolation.carix();					
 							break;
 						}
 						default: {
 							// algo mencari harga rumah
+							interpolation.hargarumahsolv();
+							interpolation.interpolsolver();
+							interpolation.AssignResult1interp();
+							System.out.println("Cari nilai x :");
+							interpolation.carix();
 							break;
 						}
 					}
